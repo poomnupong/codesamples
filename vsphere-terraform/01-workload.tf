@@ -40,7 +40,7 @@ data "vsphere_virtual_machine" "VM_TEMPLATE" {
 }
 
 resource "vsphere_virtual_machine" "VM1" {
-  count               = 10
+  count               = 1
   name                = "pn-tftest-${count.index + 1}"
   resource_pool_id    = data.vsphere_resource_pool.RESOURCEPOOL.id
   datastore_id        = data.vsphere_datastore.DATASTORE.id
