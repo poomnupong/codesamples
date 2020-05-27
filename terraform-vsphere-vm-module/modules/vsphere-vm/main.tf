@@ -29,6 +29,15 @@ data "vsphere_virtual_machine" "VM_TEMPLATE" {
   datacenter_id = "${data.vsphere_datacenter.DC.id}"
 }
 
+data "vsphere_tag_category" "category" {
+  name = "vm_owner"
+}
+
+data "vsphere_tag" "tag" {
+  name        = "pnupong"
+  category_id = data.vsphere_tag_category.category.id
+}
+
 resource "vsphere_virtual_machine" "VM1" {
   count = var.vmcount
   # name                = var.vmname
@@ -41,6 +50,7 @@ resource "vsphere_virtual_machine" "VM1" {
   scsi_type           = data.vsphere_virtual_machine.VM_TEMPLATE.scsi_type
   folder              = var.vm_folder
   sync_time_with_host = "true"
+  tags                = [data.vsphere_tag.tag.id]
   network_interface {
     network_id   = data.vsphere_network.NETWORK.id
     adapter_type = data.vsphere_virtual_machine.VM_TEMPLATE.network_interface_types[0]

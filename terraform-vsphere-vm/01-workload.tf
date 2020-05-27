@@ -39,6 +39,15 @@ data "vsphere_virtual_machine" "VM_TEMPLATE" {
   datacenter_id = "${data.vsphere_datacenter.DC.id}"
 }
 
+data "vsphere_tag_category" "category" {
+  name = "vm_owner"
+}
+
+data "vsphere_tag" "tag" {
+  name        = "pnupong"
+  category_id = data.vsphere_tag_category.category.id
+}
+
 resource "vsphere_virtual_machine" "VM1" {
   count               = 1
   name                = "pn-tftest-${count.index + 1}"
@@ -49,6 +58,7 @@ resource "vsphere_virtual_machine" "VM1" {
   guest_id            = data.vsphere_virtual_machine.VM_TEMPLATE.guest_id
   scsi_type           = data.vsphere_virtual_machine.VM_TEMPLATE.scsi_type
   folder              = "/pnupong-02"
+  tags                = [data.vsphere_tag.tag.id]
   sync_time_with_host = "true"
   network_interface {
     network_id   = data.vsphere_network.NETWORK.id
