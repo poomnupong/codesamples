@@ -1,0 +1,4 @@
+apic_user     = "your_apic_username"
+apic_password = "your_apic_password"
+apic_server   = "your_apic_url"
+apic_insecure = true
