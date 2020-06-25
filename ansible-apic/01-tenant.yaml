@@ -1,0 +1,25 @@
+# ansible playbook to drive fabric policy
+# start: 2020.06.24
+# poomsawas@gmail.com
+# modules: https://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html
+# good reference: https://github.com/datacenter/ansible-role-aci-model/blob/master/tasks/main-json.yml
+
+- name: aci2 fabric policy
+  hosts: irv-apic11
+  connection: local
+  gather_facts: no
+
+  vars:
+    aci_login: &aci_login
+      hostname: "{{ apic_host }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: create tenant
+      aci_tenant:
+        <<: *aci_login
+        tenant: "test01"
+        description: "test tenant"
+        state: "absent"

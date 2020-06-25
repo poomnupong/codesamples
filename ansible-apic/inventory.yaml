@@ -1,0 +1,6 @@
+apic:
+  hosts:
+    irv-apic11:
+      apic_host: "apic.yourcompany.com"
+      apic_username: "admin"
+      apic_password: "xxxxx"
