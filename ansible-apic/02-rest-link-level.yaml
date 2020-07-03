@@ -1,0 +1,62 @@
+# ansible playbook to drive ACI fabric access policy
+# sample for fabric access policy / link level policy (port speed) create/delete using aci_rest
+# [menu] > Fabric > Access Policies > Policies > Interface > Link Level
+# start: 2020.07.03
+# poomsawas@gmail.com
+# modules: https://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html
+# good reference: https://github.com/datacenter/ansible-role-aci-model/blob/master/tasks/main-json.yml
+
+
+# to extract REST payload with API inspector:
+# - go to the target GUI
+# - open API inspector; under gear icon on the top right
+# - back to GUI and do what you have to do
+# - API inspector will log the API being called based on your actions
+# - capture the payload and put it in "content:" in aci_rest module
+
+- name: aci2 fabric access policy
+  hosts: irvsdc-apic1
+  connection: local
+  gather_facts: no
+
+  vars:
+    aci_login: &aci_login
+      hostname: "{{ apic_host }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      use_proxy: "{{ apic_use_proxy }}"
+      validate_certs: "{{ apic_validate_certs }}"
+  
+  tasks:
+  - name: create interface policy - link level
+    aci_rest:
+      <<: *aci_login
+      method: "post"
+      path: /api/mo/uni.json
+      content: {
+        "fabricHIfPol": {
+          "attributes": {
+            "dn":"uni/infra/hintfpol-test01",
+            "name":"test01",
+            "speed":"1G",
+            "rn":"hintfpol-test01",
+            "status":"created"
+          },
+          "children":[]
+        }
+      }
+  
+  # - name: delete interface policy - link level
+  #   aci_rest:
+  #     <<: *aci_login
+  #     method: "post"
+  #     path: /api/mo/uni.json
+  #     content: {
+  #       "fabricHIfPol": {
+  #         "attributes": {
+  #           "dn":"uni/infra/hintfpol-test01",
+  #           "status":"deleted"
+  #         },
+  #         "children":[]
+  #       }
+  #     }

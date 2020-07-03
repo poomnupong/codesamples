@@ -1,4 +1,5 @@
-# ansible playbook to drive fabric policy
+# ansible playbook to drive ACI fabric policy
+# sample for tenant creation
 # start: 2020.06.24
 # poomsawas@gmail.com
 # modules: https://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html
