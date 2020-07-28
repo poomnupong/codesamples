@@ -1,0 +1,8 @@
+vc1:
+  hosts:
+    irv-sdc-vc1:
+      vc_hostname: "<vc_ip_or_hostname>"
+      vc_username: "<vc_username>"
+      vc_password: "<vc_password>"
+  vars:
+    vc_validate_certs: no

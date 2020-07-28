@@ -1,0 +1,43 @@
+---
+- name: deploy dvs
+  hosts: irv-sdc-vc1
+  connection: local
+  gather_facts: no
+
+  vars:
+    vc_login: &vc_login
+      hostname: "{{ vc_hostname }}"
+      username: "{{ vc_username }}"
+      password: "{{ vc_password }}"
+      validate_certs: "{{ vc_validate_certs }}"
+
+  tasks:
+  - name: create dvs pg1
+    vmware_dvs_portgroup:
+      <<: *vc_login
+      portgroup_name: "DnVL698-10.95.64.0_25_ans"
+      switch_name: "pn1-ndvs1"
+      vlan_id: "698"
+      state: "present"
+      num_ports: "16"
+      portgroup_type: "earlyBinding"
+  
+  - name: create dvs pg2
+    vmware_dvs_portgroup:
+      <<: *vc_login
+      portgroup_name: "DnVL702-192.168.2.0_24_ans"
+      switch_name: "pn1-ndvs1"
+      vlan_id: "702"
+      state: "present"
+      num_ports: "16"
+      portgroup_type: "earlyBinding"
+
+  - name: create dvs pg3
+    vmware_dvs_portgroup:
+      <<: *vc_login
+      portgroup_name: "DnVL703-192.168.3.0_24_ans"
+      switch_name: "pn1-ndvs1"
+      vlan_id: "703"
+      state: "present"
+      num_ports: "16"
+      portgroup_type: "earlyBinding"
